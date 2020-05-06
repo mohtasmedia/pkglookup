@@ -16,6 +16,9 @@
     "size": "echo \"Gzipped Size: $(gzip-size $npm_package_main)\"",
     "release": "npm run build -s && npm run bump && git push --follow-tags origin master && npm publish"
   },
+  "bin": {
+    "pkglookup": "dist/index.js"
+  },
   "files": [
     "src",
     "dist"
