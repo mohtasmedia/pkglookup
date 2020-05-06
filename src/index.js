@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 const https = require("https");
-const [pkgName, ...args] = process.argv.slice(2);
-const v = !args.indexOf("-v");
-const vv = !args.indexOf("-vv");
+const [pkgName] = process.argv.slice(2);
 const kb = 1024;
 
 const request = async ([hostname, path]) =>
@@ -16,7 +14,8 @@ const request = async ([hostname, path]) =>
   }).catch((e) => e);
 const date = (v) => `${v.getDay()}/${v.getMonth() + 1}/${v.getFullYear()}`;
 const formatBytes = (v) => (v >= kb ? `${(v / kb).toFixed(1)}KB` : `${v}B`);
-const log = (t, v) => console.log(`\x1b[31m${t}\x1b[0m: ${v}`);
+const log = (t, v) =>
+  console.log(`    ${t ? `\x1b[31m${t}\x1b[0m: ` : ""}${v}`);
 
 (async () => {
   const npm = await request([
@@ -42,20 +41,16 @@ const log = (t, v) => console.log(`\x1b[31m${t}\x1b[0m: ${v}`);
     `/search/issues?q=repo:${repo[3]}/${repo[4]}+is:pr+state:open&per_page=1`,
   ]);
 
-  if (v || vv) {
-    log("Name", metadata.name);
-    log("Description", metadata.description);
-    log("Version", metadata.version);
-  }
-  log("Last updated", date(new Date(metadata.date)));
+  console.log();
+  log(null, `${metadata.name} - v${metadata.version}`);
+  log(null, metadata.description);
+  console.log();
   log("Size / Gzipped", `${formatBytes(bp.size)} / ${formatBytes(bp.gzip)}`);
-  if (v || vv) {
-    log("Liscnce", metadata.license);
-    log("Homepage", metadata.links.homepage);
-    log("Repo", metadata.links.repository);
-  }
-  if (vv) {
-    log("Open issues", github.issues.openCount);
-    prCount && log("Open PRs", prCount);
-  }
+  log("Open issues / PRs", `${github.issues.openCount} / ${prCount}`);
+  log("Last updated", date(new Date(metadata.date)));
+  log("Liscnce", metadata.license);
+  console.log();
+  log("NPM", metadata.links.npm);
+  log("Homepage", metadata.links.homepage);
+  log("Repo", metadata.links.repository);
 })();
