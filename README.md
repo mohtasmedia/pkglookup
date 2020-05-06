@@ -1,24 +1,25 @@
 <h1 align="center">
   🔍 <br/>
-  PkgLookup
+  pkg-Lookup
 
-[![npm](https://img.shields.io/npm/v/pkglookup.svg?style=flat-square)](https://www.npmjs.com/package/pkglookup)
-[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/pkglookup.svg?style=flat-square)](https://www.npmjs.com/package/pkglookup)
+[![npm](https://img.shields.io/npm/v/pkg-lookup.svg?style=flat-square)](https://www.npmjs.com/package/pkg-lookup)
+[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/pkg-lookup.svg?style=flat-square)](https://www.npmjs.com/package/pkg-lookup)
+[![Maintainability](https://api.codeclimate.com/v1/badges/9e1c94798c83e9d394df/maintainability)](https://codeclimate.com/github/mohtasmedia/pkg-lookup/maintainability)
 ![](https://img.shields.io/badge/licence-MIT-blue.svg?style=flat-square)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 </h1>
 
-PkgLookup is a simple CLI tool to help get details on NPM packages.
+`pkg-lookup` is a simple CLI tool to help get details on NPM packages.
 
 ## Install
 
 ```sh
-yarn global add pkglookup
+yarn global add pkg-lookup
 
 # or
 
-npm install -g pkglookup
+npm install -g pkg-lookup
 ```
 
 ## Usage
@@ -26,15 +27,15 @@ npm install -g pkglookup
 The easiest way to use PkgLookup is via `npx`, the below command will return a short summary of the package, including is size (minifed and gzipped).
 
 ```sh
-npx pkglookup react
+npx pkg-lookup react
 ```
 
 There is two level of verbosity to provide more information on the package
 
 ```sh
-npx pkglookup preact -v
+npx pkg-lookup preact -v
 
 # or
 
-npm pkglookup vue -vv
+npm pkg-lookup vue -vv
 ```
