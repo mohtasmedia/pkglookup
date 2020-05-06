@@ -1,5 +1,5 @@
 {
-  "name": "pkgstats",
+  "name": "pkglookup",
   "version": "0.1.1",
   "description": "Get statistics on packages",
   "author": "Tom Sturge",
@@ -22,7 +22,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mohtasmedia/pkgstats.git"
+    "url": "git+https://github.com/mohtasmedia/pkglookup.git"
   },
   "keywords": [
     "package",
@@ -33,9 +33,9 @@
     "information"
   ],
   "bugs": {
-    "url": "https://github.com/mohtasmedia/pkgstats/issues"
+    "url": "https://github.com/mohtasmedia/pkglookup/issues"
   },
-  "homepage": "https://github.com/mohtasmedia/pkgstats#readme",
+  "homepage": "https://github.com/mohtasmedia/pkglookup#readme",
   "devDependencies": {
     "documentation": "^12.0.0",
     "gzip-size-cli": "^3.0.0",
