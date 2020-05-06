@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const https = require("https");
 const [pkgName, ...args] = process.argv.slice(2);
 const v = !args.indexOf("-v");
