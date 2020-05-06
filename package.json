@@ -1,6 +1,6 @@
 {
   "name": "pkg-lookup",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Get statistics on packages",
   "author": "Tom Sturge",
   "license": "MIT",
