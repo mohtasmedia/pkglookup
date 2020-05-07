@@ -5,8 +5,6 @@
   "author": "Tom Sturge",
   "license": "MIT",
   "main": "dist/cli.js",
-  "module": "dist/cli.es.js",
-  "umd:main": "dist/cli.umd.js",
   "scripts": {
     "bump": "standard-version",
     "test": "npm run lint",
@@ -20,7 +18,7 @@
     "pkg-lookup": "dist/cli.js"
   },
   "files": [
-    "dist"
+    "dist/cli.js"
   ],
   "repository": {
     "type": "git",
