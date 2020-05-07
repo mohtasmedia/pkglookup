@@ -29,13 +29,3 @@ The easiest way to use pkg-lookup is via `npx`, the below command will return a 
 ```sh
 npx pkg-lookup react
 ```
-
-There is two level of verbosity to provide more information on the package
-
-```sh
-npx pkg-lookup preact -v
-
-# or
-
-npm pkg-lookup vue -vv
-```
