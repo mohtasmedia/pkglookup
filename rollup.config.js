@@ -5,7 +5,7 @@ import fs from "fs";
 const pkg = JSON.parse(fs.readFileSync("./package.json"));
 
 export default {
-  input: "src/index.js",
+  input: "src/cli.js",
   plugins: [terser(), preserveShebangs()],
   output: [
     { file: pkg.main, format: "cjs" },

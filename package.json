@@ -4,9 +4,9 @@
   "description": "Get statistics on packages",
   "author": "Tom Sturge",
   "license": "MIT",
-  "module": "dist/index.es.js",
-  "main": "dist/index.js",
-  "umd:main": "dist/index.umd.js",
+  "main": "dist/cli.js",
+  "module": "dist/cli.es.js",
+  "umd:main": "dist/cli.umd.js",
   "scripts": {
     "bump": "standard-version",
     "test": "npm run lint",
@@ -17,10 +17,9 @@
     "release": "npm run build -s && npm run bump && git push --follow-tags origin master && npm publish"
   },
   "bin": {
-    "pkglookup": "dist/index.js"
+    "pkg-lookup": "dist/cli.js"
   },
   "files": [
-    "src",
     "dist"
   ],
   "repository": {
@@ -31,7 +30,7 @@
     "package",
     "statistics",
     "pkg",
-    "stats",
+    "lookup",
     "npm",
     "information"
   ],
