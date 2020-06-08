@@ -20,32 +20,27 @@
     "type": "git",
     "url": "git+https://github.com/mohtasmedia/pkg-lookup.git"
   },
-  "main": "dist/cli.js",
+  "main": "dist/index.js",
   "scripts": {
     "bump": "standard-version",
     "lint": "npm run lint",
-    "build": "npm-run-all --silent clean -p tsc -p minify -p size",
-    "minify": "uglifyjs-folder ./dist --config-file '.uglifyconfig.json' -yeo dist -x .js",
+    "build": "npm-run-all --silent clean -p compile",
     "clean": "rimraf dist",
-    "tsc": "tsc",
-    "size": "echo \"Gzipped Size: $(cat ./dist/cli.js ./dist/utils.js | gzip-size)\"",
+    "compile": "ncc build src/cli.ts -o dist -m",
     "release": "npm run build -s && npm run bump && git push --follow-tags origin master && npm publish"
   },
   "bin": {
-    "pkg-lookup": "dist/cli.js"
+    "pkg-lookup": "dist/index.js"
   },
   "files": [
-    "dist/cli.js"
+    "dist/index.js"
   ],
   "devDependencies": {
     "@types/node": "^14.0.1",
-    "gzip-size-cli": "^3.0.0",
     "npm-run-all": "^4.0.0",
     "rimraf": "^3.0.0",
     "standard-version": "^8.0.0",
-    "typescript": "^3.9.2",
-    "uglify-es": "^3.3.9",
-    "uglifyjs-folder": "^1.5.4"
+    "typescript": "^3.9.2"
   },
   "dependencies": {}
 }
