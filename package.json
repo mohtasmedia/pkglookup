@@ -1,6 +1,6 @@
 {
   "name": "pkg-lookup",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Get statistics on packages",
   "author": "Tom Sturge",
   "keywords": [
