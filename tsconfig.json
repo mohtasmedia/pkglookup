@@ -2,9 +2,10 @@
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
-    "target": "esnext",
+    "target": "es2019",
     "removeComments": true,
-    "outDir": "./dist/"
+    "outDir": "./dist/",
+    "noImplicitUseStrict": true
   },
   "include": ["src/**/*.ts"],
   "exclude": ["./node_modules", "dist"]
