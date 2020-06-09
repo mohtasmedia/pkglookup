@@ -5,122 +5,117 @@ const { stdin, stdout } = process;
 const rl = readline.createInterface(stdin, stdout);
 
 const colors = {
+  r: "\x1b[31m",
   y: "\x1b[33m",
   d: "\x1b[2m",
 };
 const request = ([hostname, path]) =>
-  new Promise((resolve, reject) => {
-    https.get({ hostname, path, headers: { "User-Agent": "" } }, (response) => {
-      let data = [];
-      response.on("data", (fragment) => data.push(fragment));
-      response.on("end", () =>
-        resolve(JSON.parse(Buffer.concat(data).toString()))
-      );
-      response.on("error", (error) => reject(error));
+  new Promise((res) => {
+    https.get({ hostname, path, headers: { "User-Agent": "" } }, (r) => {
+      let d = [];
+      r.on("data", (f) => d.push(f));
+      r.on("end", () => res(JSON.parse(Buffer.concat(d).toString())));
     });
-  }).catch((e) => console.error(e));
+  }).catch((e) => e);
 const color = (v, c) => `${colors[c] + v}\x1b[0m`;
 const date = (v) => `${v.getDate()}/${v.getMonth() + 1}/${v.getFullYear()}`;
 const bytes = (v) => (v >= 1024 ? `${(v / 1024).toFixed(1)}KB` : `${v}B`);
 const log = (v?: string) => console.log(v ? `    ${v}` : "");
 const entry = (t: string, d: string) => log(`${color(t, "y")}: ${d}`);
-const output = ({ title, description, entries }: any) => {
+const output = ({ title: t, description: d, entries: e }: any) => {
   log();
-  log(title);
-  log(color(description, "d"));
-  log();
+  log(`${t}`);
+  log(color(`${d}\n`, "d"));
 
-  entries.map(({ label, val }) => {
-    const value = typeof val === "number" ? val.toLocaleString() : val;
+  e.map(([l, v]) => {
+    v = typeof v === "number" ? v.toLocaleString() : v;
 
-    !label ? console.log() : entry(label, value);
+    !l ? log() : entry(l, v);
   });
   log();
 };
-const prompt = (q) =>
-  new Promise((res) => rl.question(q, (input) => res(input)));
+const ask = (q) => new Promise((res) => rl.question(q, (i) => res(i)));
 
-const getNpms = async (name) => {
-  const res: any = await request([
-    "api.npms.io",
-    `/v2/package/${encodeURIComponent(name)}`,
-  ]);
+const getNpms = async (n) =>
+  await request(["api.npms.io", `/v2/package/${encodeURIComponent(n)}`]).then(
+    (r: any) => {
+      if (r.code) {
+        log(color(r.message, "r"));
+        process.exit();
+      } else {
+        const {
+          collected: { metadata: m, github: gh, npm },
+        } = r;
 
-  if (res.code) {
-    log(color(res.message, "r"));
-    return;
-  }
-  const {
-    collected: { metadata, github, npm },
-  } = res;
+        return {
+          m,
+          gh,
+          dl: npm.downloads,
+        };
+      }
+    }
+  );
 
-  return {
-    metadata,
-    github,
-    npm,
-  };
-};
+const getBp = async (n) =>
+  await request([
+    "bundlephobia.com",
+    `/api/size?package=${n}`,
+  ]).then(({ size: s, gzip: g }: any) => ({ s, g }));
 
-const getBp = async (name) =>
-  await request(["bundlephobia.com", `/api/size?package=${name}`]);
-
-const getGh = async (repo) => {
-  repo = repo.split("/");
-  if (repo[2] === "github.com") {
+const getGh = async (r) => {
+  r = r.split("/");
+  if (r[2] === "github.com") {
     return await request([
       "api.github.com",
-      `/search/issues?q=repo:${repo[3]}/${repo[4]}+is:pr+state:open&per_page=1`,
-    ]);
+      `/search/issues?q=repo:${r[3]}/${r[4]}+is:pr+state:open&per_page=1`,
+    ]).then((r: any) => r.total_count);
   }
 
   return;
 };
 
-const lookup = async (name) => {
-  const { metadata, npm, github } = await getNpms(name);
-  const bp: any = await getBp(name);
-  const repo = metadata.links.repository;
-  let gh;
+const lookup = async (n) => {
+  const { m, dl, gh } = await getNpms(n);
+  const { s, g }: any = await getBp(n);
+  const r = m.links.repository;
+  let prs;
 
-  if (repo) gh = await getGh(repo);
+  if (r) prs = await getGh(r);
 
   return {
-    details: metadata,
-    size: bp.size,
-    gzip: bp.gzip,
-    downloads: npm.downloads[npm.downloads.length - 1].count,
+    m,
+    s,
+    g,
+    dl: dl[dl.length - 1].count,
     gh: {
-      issues: github.issues.openCount,
-      stars: github.starsCount,
-      prs: gh.total_count,
+      issues: gh.issues.openCount,
+      stars: gh.starsCount,
+      prs,
     },
-    links: metadata.links,
   };
 };
 
 export default async (args) => {
-  let [name] = args.slice(2);
-  while (!name) name = await prompt("Provide name of package: ");
+  let [n] = args.slice(2);
+  while (!n) n = await ask("Provide name of package: ");
   rl.close();
 
-  const { details, size, gzip, downloads, gh, links }: any = await lookup(name);
+  const { m, s, g, dl, gh }: any = await lookup(n);
 
   output({
-    title: `${details.name} - v${details.version} (Published ${date(
-      new Date(details.date)
-    )})`,
-    description: details.description,
+    title: `${m.name} - v${m.version} (Published ${date(new Date(m.date))})`,
+    description: m.description,
     entries: [
-      { label: "Size / Gzipped", val: `${bytes(size)} / ${bytes(gzip)}` },
-      { label: "Downloads", val: downloads },
-      { label: "Issues / PRs", val: `${gh.issues} / ${gh.prs}` },
-      { label: "Stars", val: gh.stars },
-      {},
-      { label: "NPM", val: links.npm },
-      { label: "Homepage", val: links.homepage },
-      { label: "Repo", val: links.repository },
-      {},
-      { label: "Liscnce", val: details.license },
+      ["Size / Gzipped", `${bytes(s)} / ${bytes(g)}`],
+      ["Downloads", dl],
+      ["Issues / PRs", `${gh.issues} / ${gh.prs}`],
+      ["Stars", gh.stars],
+      [],
+      ["NPM", m.links.npm],
+      ["Homepage", m.links.homepage],
+      ["Repo", m.links.repository],
+      [],
+      ["Liscnce", m.license],
     ],
   });
 };
