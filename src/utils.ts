@@ -45,12 +45,14 @@ const init = async (n: string) => {
   });
 };
 
-export const cli = (v) => {
+export const cli = async (v) => {
   const [n] = v.slice(2);
   if (!n) {
     err("Package name required");
-    process.exit();
+    return;
   }
 
-  init(n);
+  await init(n);
+
+  return;
 };

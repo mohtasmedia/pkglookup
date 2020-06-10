@@ -10,16 +10,34 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
+    name: test
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
         with:
           node-version: "12.x"
       - run: npm ci
-      - run: npm run build --if-present
+      - run: npm run build
       - run: npm run lint
       - run: npm test
+
+  coverage:
+    needs: [test]
+    name: coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: "12.x"
+      - run: npm ci
+      - run: npm run build
+      - uses: paambaati/codeclimate-action@v2.6.0
+        env:
+          CC_TEST_REPORTER_ID: a8f8b7e6fd363b310aeb8887235ba85d390a0bfa2fcf374e154fbd1911c79570
+        with:
+          coverageCommand: npm run test:coverage
