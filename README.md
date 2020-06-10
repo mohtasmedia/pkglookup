@@ -5,6 +5,7 @@
 [![npm](https://img.shields.io/npm/v/pkg-lookup.svg?style=flat-square)](https://www.npmjs.com/package/pkg-lookup)
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/pkg-lookup.svg?style=flat-square)](https://www.npmjs.com/package/pkg-lookup)
 [![Maintainability](https://api.codeclimate.com/v1/badges/05e9e7a0d769002e1b89/maintainability)](https://codeclimate.com/github/mohtasmedia/pkg-lookup/maintainability)
+[![Known Vulnerabilities](https://snyk.io/test/github/mohtasmedia/pkg-lookup/badge.svg?targetFile=package.json)](https://snyk.io/test/github/mohtasmedia/pkg-lookup?targetFile=package.json)
 ![](https://img.shields.io/badge/licence-MIT-blue.svg?style=flat-square)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 

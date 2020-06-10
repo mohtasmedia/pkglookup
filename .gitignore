@@ -4,3 +4,4 @@ dist
 yarn.lock
 src/cli.js
 src/utils.js
+coverage
