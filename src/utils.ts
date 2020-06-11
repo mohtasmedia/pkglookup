@@ -6,10 +6,18 @@ const clrs = {
   y: "\x1b[33m",
   d: "\x1b[2m",
 };
-const clr = (v: string, c: string) => `${clrs[c]}${v}\x1b[0m`;
-const log = (v?: string) => console.log(v ? `    ${v}` : "");
+const clr = (v: string | number, c: string) => `${clrs[c]}${v}\x1b[0m`;
+const log = (v?: string) => console.log(v ? `\t${v}` : "");
 export const err = (v: string) => log(clr(v, "r"));
-const op = ({ title: t, description: d, entries: e }: any) => {
+export const op = ({
+  title: t,
+  description: d,
+  entries: e,
+}: {
+  title: string;
+  description: string;
+  entries: (string | number)[][];
+}) => {
   log();
   log(`${t}`);
   log(clr(`${d}`, "d"));
@@ -19,9 +27,9 @@ const op = ({ title: t, description: d, entries: e }: any) => {
   );
 };
 
-const init = async (n: string) => {
-  const { m, dl, g } = await npms(n);
-  const { s, gz } = await bp(n);
+const parse = async (npm, bp) => {
+  const { m, dl, g } = npm;
+  const { s, gz } = bp;
   const r = m.links.repository;
   const prs = await gh(r);
 
@@ -37,7 +45,7 @@ const init = async (n: string) => {
       [""],
       ["NPM", m.links.npm],
       ["Homepage", m.links.homepage],
-      ["Repo", m.links.repository],
+      ["Repo", r],
       [""],
       ["Liscnce", m.license],
       [""],
@@ -45,14 +53,15 @@ const init = async (n: string) => {
   });
 };
 
-export const cli = async (v) => {
-  const [n] = v.slice(2);
-  if (!n) {
+export const init = async (v: string[]) => {
+  const [p]: string[] = v.slice(2);
+  if (!p) {
     err("Package name required");
     return;
   }
 
-  await init(n);
+  const n = await npms(p);
+  const b = await bp(p);
 
-  return;
+  n && b ? await parse(n, b) : null;
 };
