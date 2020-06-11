@@ -1,4 +1,4 @@
 #!/usr/bin/env node
-import { cli } from "./utils";
+import { init } from "./utils";
 
-cli(process.argv);
+init(process.argv);

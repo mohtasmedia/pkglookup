@@ -18,6 +18,11 @@ export interface NpmsInterface {
   dl: number;
 }
 
+export interface NpmsErrorInterface {
+  code: number;
+  message: string;
+}
+
 export interface BpInterface {
   s: number;
   gz: number;
