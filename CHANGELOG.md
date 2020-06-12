@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.0.1](https://github.com/mohtasmedia/pkg-lookup/compare/v0.1.18...v1.0.1) (2020-06-12)
 
+### [1.0.1](https://github.com/mohtasmedia/pkg-lookup/compare/v0.1.18...v1.0.1) (2020-06-12)
+
 ### [0.1.18](https://github.com/mohtasmedia/pkg-lookup/compare/v0.1.17...v0.1.18) (2020-06-12)
 
 ### [0.1.17](https://github.com/mohtasmedia/pkg-lookup/compare/v0.1.16...v0.1.17) (2020-06-12)
