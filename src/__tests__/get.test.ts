@@ -1,4 +1,4 @@
-const nock = require("nock");
+import nock from "nock";
 import { req, gh, npms } from "../get";
 
 const name = "pkg-lookup";
