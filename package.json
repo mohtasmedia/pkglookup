@@ -28,7 +28,7 @@
     "clean": "rimraf dist",
     "compile": "ncc build src/cli.ts -o dist -m",
     "release": "npm run build -s && npm run bump && git push --follow-tags origin master && npm publish",
-    "test": "jest",
+    "test": "snyk test && jest",
     "test:coverage": "jest --coverage",
     "snyk-protect": "snyk protect"
   },
@@ -49,11 +49,10 @@
     "nock": "^12.0.3",
     "npm-run-all": "^4.0.0",
     "rimraf": "^3.0.0",
-    "snyk": "^1.337.0",
+    "snyk": "^1.848.0",
     "standard-version": "^8.0.0",
     "ts-jest": "^26.1.0",
     "typescript": "^3.9.2"
   },
-  "dependencies": {},
   "synk": true
 }
