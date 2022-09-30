@@ -33,7 +33,7 @@ jobs:
           node-version: "12.x"
       - run: npm ci
       - run: npm run lint
-      - uses: paambaati/codeclimate-action@v2.6.0
+      - uses: paambaati/codeclimate-action@v2.7.5
         env:
           CC_TEST_REPORTER_ID: a8f8b7e6fd363b310aeb8887235ba85d390a0bfa2fcf374e154fbd1911c79570
         with:
