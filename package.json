@@ -51,7 +51,7 @@
     "rimraf": "3.0.2",
     "snyk": "1.848.0",
     "standard-version": "9.5.0",
-    "ts-jest": "26.1.0",
+    "ts-jest": "26.5.6",
     "typescript": "3.9.10"
   },
   "synk": true
